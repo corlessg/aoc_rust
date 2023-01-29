@@ -68,9 +68,6 @@ fn main() {
                     }
                 };
         }
-        // println!("{}",arr_val[0]);
-        // println!("{}",arr_val[1]);
-        // println!("{}",arr_val[2]);
        }
        max_sum = arr_val[0] + arr_val[1] + arr_val[2];
        println!("{}",max_sum);
