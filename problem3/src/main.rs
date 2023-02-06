@@ -8,7 +8,7 @@ fn main() {
 
     let mut total_val: u32 = 0;
 
-    if let Ok(lines) = read_lines("./data/data.txt") {       
+    if let Ok(mut lines) = read_lines("./data/data.txt") {       
         // Version 1
         // for line in lines{
             
@@ -36,25 +36,15 @@ fn main() {
         let mut vec1: Vec<u8> = Vec::new();
         let mut vec2: Vec<u8> = Vec::new();
         let mut vec3: Vec<u8> = Vec::new();
-        for line in lines {
-            
-
-            if let Ok(line_str) = line {
-                if counter == 0 {
-                    vec1 = string_to_decimals(&line_str).unwrap();
-                    counter += 1;
-                } else if counter == 1 {
-                    vec2 = string_to_decimals(&line_str).unwrap();
-                    counter += 1;
-                } else {
-                    vec3 = string_to_decimals(&line_str).unwrap();
-                    
-                    let badge_value: u8 = get_badge(vec1,vec2,vec3);
-
-                    total_val = total_val + (badge_value as u32);
-                    counter = 0;
-                }
-            }
+        while let Some(x) = lines.next() {
+            vec1 = string_to_decimals(x.as_ref().unwrap()).unwrap();
+            let x = lines.next().unwrap();
+            vec2 = string_to_decimals(x.as_ref().unwrap()).unwrap();      
+            let x = lines.next().unwrap();
+            vec3 = string_to_decimals(x.as_ref().unwrap()).unwrap();
+        
+            let badge_value: u8 = get_badge(vec1,vec2,vec3);
+            total_val = total_val + (badge_value as u32);
         }
         
 
@@ -80,7 +70,11 @@ fn get_badge(vec1: Vec<u8>, vec2: Vec<u8>,vec3: Vec<u8>) -> u8 {
             if x.1 == y.1{
                 for z in vec3.iter().enumerate(){
                     if y.1 == z.1{
-                        return *z.1;
+                        if *z.1 >= 97 {
+                            return *z.1 - 96;
+                        } else {
+                            return *z.1 - 64 + 26;
+                        }
                     }
                 }
             } 
